@@ -1,16 +1,15 @@
+"use client";
+
 export default function SignupPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      {/* ========================================
-          TEMPORARY NAVBAR 
-          (Your friend can replace this section later)
-      ========================================= */}
-      <nav className="bg-white border-b border-slate-200 shadow-sm">
+    <div className="min-h-screen bg-[#0F172A] flex flex-col">
+      {/* NAVBAR (Dark Mode) */}
+      <nav className="bg-[#1E293B] border-b border-[#334155] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Left: Logo & Brand */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-md">
                 <svg
                   className="w-6 h-6 text-white"
                   fill="none"
@@ -26,8 +25,8 @@ export default function SignupPage() {
                 </svg>
               </div>
               <div>
-                <h1 className="text-lg font-bold text-slate-800">StockMaster</h1>
-                <p className="text-xs text-slate-500">Inventory Management</p>
+                <h1 className="text-lg font-bold text-white">StockMaster</h1>
+                <p className="text-xs text-slate-400">Inventory Management</p>
               </div>
             </div>
 
@@ -35,13 +34,13 @@ export default function SignupPage() {
             <div className="flex items-center gap-6">
               <a
                 href="/auth/login"
-                className="text-sm text-slate-600 hover:text-blue-600 transition-colors"
+                className="text-sm text-slate-300 hover:text-blue-400 transition-colors"
               >
                 Login
               </a>
               <a
                 href="/auth/signup"
-                className="text-sm text-slate-600 hover:text-blue-600 transition-colors"
+                className="text-sm text-slate-300 hover:text-blue-400 transition-colors"
               >
                 Sign Up
               </a>
@@ -49,13 +48,12 @@ export default function SignupPage() {
           </div>
         </div>
       </nav>
-      {/* ======================================== */}
 
       {/* Signup Container */}
-      <div className="flex items-center justify-center p-4 pt-20">
+      <div className="flex items-center justify-center p-4 pt-16 flex-1">
         <div className="w-full max-w-md">
-          {/* Container Card with Enhanced Shadow */}
-          <div className="bg-white rounded-lg shadow-2xl p-8 space-y-6 border border-slate-100">
+          {/* Card */}
+          <div className="bg-[#1E293B] rounded-xl shadow-xl p-8 space-y-6 border border-[#334155]">
             {/* Logo */}
             <div className="flex justify-center mb-6">
               <div className="text-center">
@@ -74,18 +72,22 @@ export default function SignupPage() {
                     />
                   </svg>
                 </div>
-                <h1 className="text-2xl font-bold text-slate-800">Create Account</h1>
-                <p className="text-sm text-slate-500 mt-1">Join StockMaster today</p>
+                <h1 className="text-2xl font-bold text-white">
+                  Create Account
+                </h1>
+                <p className="text-sm text-slate-400 mt-1">
+                  Join StockMaster today
+                </p>
               </div>
             </div>
 
             {/* Signup Form */}
             <div className="space-y-4">
-              {/* Login ID Field */}
+              {/* Login ID */}
               <div className="space-y-2">
                 <label
                   htmlFor="username"
-                  className="text-sm font-medium text-slate-700 block"
+                  className="text-sm font-medium text-slate-300 block"
                 >
                   Login ID
                 </label>
@@ -93,15 +95,15 @@ export default function SignupPage() {
                   id="username"
                   type="text"
                   placeholder="Enter your username"
-                  className="w-full h-10 px-3 py-2 text-sm rounded-md border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                  className="w-full h-10 px-3 py-2 text-sm rounded-md border border-[#334155] bg-[#0F172A] text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 />
               </div>
 
-              {/* Email Field */}
+              {/* Email */}
               <div className="space-y-2">
                 <label
                   htmlFor="email"
-                  className="text-sm font-medium text-slate-700 block"
+                  className="text-sm font-medium text-slate-300 block"
                 >
                   Email
                 </label>
@@ -109,15 +111,15 @@ export default function SignupPage() {
                   id="email"
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full h-10 px-3 py-2 text-sm rounded-md border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                  className="w-full h-10 px-3 py-2 text-sm rounded-md border border-[#334155] bg-[#0F172A] text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 />
               </div>
 
-              {/* Password Field */}
+              {/* Password */}
               <div className="space-y-2">
                 <label
                   htmlFor="password"
-                  className="text-sm font-medium text-slate-700 block"
+                  className="text-sm font-medium text-slate-300 block"
                 >
                   Password
                 </label>
@@ -125,15 +127,15 @@ export default function SignupPage() {
                   id="password"
                   type="password"
                   placeholder="Enter your password"
-                  className="w-full h-10 px-3 py-2 text-sm rounded-md border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                  className="w-full h-10 px-3 py-2 text-sm rounded-md border border-[#334155] bg-[#0F172A] text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 />
               </div>
 
-              {/* Re-enter Password Field */}
+              {/* Confirm Password */}
               <div className="space-y-2">
                 <label
                   htmlFor="confirmPassword"
-                  className="text-sm font-medium text-slate-700 block"
+                  className="text-sm font-medium text-slate-300 block"
                 >
                   Re-enter Password
                 </label>
@@ -141,22 +143,22 @@ export default function SignupPage() {
                   id="confirmPassword"
                   type="password"
                   placeholder="Re-enter your password"
-                  className="w-full h-10 px-3 py-2 text-sm rounded-md border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                  className="w-full h-10 px-3 py-2 text-sm rounded-md border border-[#334155] bg-[#0F172A] text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 />
               </div>
 
-              {/* Sign Up Button */}
-              <button className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg">
+              {/* Button */}
+              <button className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors shadow-lg">
                 Sign Up
               </button>
             </div>
 
-            {/* Footer Links */}
-            <div className="flex items-center justify-center gap-2 text-sm pt-4 border-t border-slate-200">
-              <span className="text-slate-600">Already have an account?</span>
+            {/* Footer */}
+            <div className="flex items-center justify-center gap-2 text-sm pt-4 border-t border-[#334155]">
+              <span className="text-slate-400">Already have an account?</span>
               <a
                 href="/auth/login"
-                className="text-blue-600 hover:text-blue-700 hover:underline font-medium"
+                className="text-blue-400 hover:text-blue-500 hover:underline font-medium"
               >
                 Login
               </a>

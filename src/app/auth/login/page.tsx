@@ -1,11 +1,12 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ username: "", password: "" });
+const router = useRouter();
 
   const validateUsername = (value: string) => {
     if (value.length < 6 || value.length > 12) {
@@ -29,16 +30,16 @@ export default function LoginPage() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
+
     e.preventDefault();
 
     const usernameError = validateUsername(username);
     const passwordError = validatePassword(password);
-
+router.push("/dashboard");
     if (usernameError || passwordError) {
       setErrors({ username: usernameError, password: passwordError });
       return;
     }
-
     console.log("Login successful!", { username, password });
   };
 
@@ -161,6 +162,7 @@ export default function LoginPage() {
             {/* Button */}
             <button
               type="submit"
+              onClick={handleSubmit}
               className="w-full h-11 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-lg transition-all"
             >
               Sign In
@@ -170,7 +172,7 @@ export default function LoginPage() {
           {/* Bottom links */}
           <div className="text-center mt-6 text-sm text-slate-400">
             <a
-              href="/auth/reset-password"
+              href="/auth/reset-password/"
               className="text-blue-400 hover:underline"
             >
               Forgot Password
