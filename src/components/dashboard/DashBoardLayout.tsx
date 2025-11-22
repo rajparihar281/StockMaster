@@ -14,9 +14,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Operations", href: "/operations" },
+    { name: "Operations", href: "/operations/deliveries" },
     { name: "Inventory", href: "/inventory/products" },
-    { name: "Move History", href: "/operations/transfers" },
+    { name: "Move History", href: "/history" },
     { name: "Settings", href: "/settings" },
   ];
 
