@@ -15,7 +15,7 @@ const moveHistoryData = [
   { reference: "WH/IN/0004", date: "12/3/2001", contact: "Modern Furnish", from: "vendor", to: "WH/Stock2", quantity: 40, status: "In Progress", direction: "in", product: "Conference Table" },
 ];
 
-function getStatusBadge(row) {
+function getStatusBadge(row: { direction: string; status: string }) {
   if (row.direction === "in") {
     return (
       <span className="px-3 py-1 rounded-full text-xs font-medium border bg-green-100 text-green-700 border-green-300">
