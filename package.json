@@ -9,10 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@prisma/client": "^7.0.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.554.0",
     "next": "16.0.3",
-    "prisma": "^6.1.0",
+    "next-auth": "^5.0.0-beta.30",
+    "nodemailer": "^7.0.10",
     "prisma-client": "^0.0.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
@@ -25,6 +27,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
+    "prisma": "^7.0.0",
     "tailwindcss": "^4",
     "typescript": "^5.9.3"
   }
