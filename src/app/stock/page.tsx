@@ -9,16 +9,8 @@ const stockData = [
   { product: "Table", cost: "3000 Rs", onHand: 50, free: 50 }
 ];
 
-const navItems = [
-  { name: "Dashboard", href: "/dashboard" },
-  { name: "Operations", href: "/operations" },
-  { name: "Products", href: "/products" },
-  { name: "Move History", href: "/history" },
-  { name: "Settings", href: "/settings" },
-];
 
 export default function StockPage() {
-  const pathname = usePathname();
 
   return (
   <DashboardLayout>          <h1 className="text-2xl font-bold text-gray-800">Stock</h1>
