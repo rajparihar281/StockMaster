@@ -1,42 +1,50 @@
+// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
+// ... your models remain the same
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
   password  String
   name      String?
   role      String   @default("USER")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
 }
 
 model Warehouse {
   id        String   @id @default(cuid())
   name      String
-  shortCode String   @unique
+  shortCode String   @unique @map("short_code")
   address   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  products Product[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  products       Product[]
   stockMovements StockLedger[]
+
+  @@map("warehouses")
 }
 
 model Category {
   id          String   @id @default(cuid())
   name        String
   description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
   products Product[]
+
+  @@map("categories")
 }
 
 model Product {
@@ -44,28 +52,39 @@ model Product {
   name        String
   sku         String   @unique
   description String?
-  perUnitCost Float
-  categoryId  String
-  warehouseId String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  category   Category @relation(fields: [categoryId], references: [id])
-  warehouse  Warehouse @relation(fields: [warehouseId], references: [id])
+  perUnitCost Float    @map("per_unit_cost")
+  categoryId  String   @map("category_id")
+  warehouseId String   @map("warehouse_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  category       Category      @relation(fields: [categoryId], references: [id])
+  warehouse      Warehouse     @relation(fields: [warehouseId], references: [id])
   stockMovements StockLedger[]
+
+  @@index([categoryId])
+  @@index([warehouseId])
+  @@index([sku])
+  @@map("products")
 }
 
 model StockLedger {
-  id           String   @id @default(cuid())
-  productId    String
-  warehouseId  String
+  id           String       @id @default(cuid())
+  productId    String       @map("product_id")
+  warehouseId  String       @map("warehouse_id")
   quantity     Int
-  movementType MovementType
+  movementType MovementType @map("movement_type")
   reference    String?
-  createdAt    DateTime @default(now())
-  
-  product   Product   @relation(fields: [productId], references: [id])
-  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+  createdAt    DateTime     @default(now()) @map("created_at")
+
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([warehouseId])
+  @@index([movementType])
+  @@index([createdAt(sort: Desc)])
+  @@map("stock_ledger")
 }
 
 enum MovementType {
