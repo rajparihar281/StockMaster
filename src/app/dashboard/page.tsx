@@ -47,10 +47,10 @@ export default function DashboardPage() {
         {/* Additional Cards based on your image */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Stocks Card */}
-          <Link href="/stocks">
+          <Link href="/operations/reciepts">
             <div className="border border-gray-700 rounded-2xl p-6 bg-gray-800 hover:bg-gray-700 transition-colors cursor-pointer">
               <h2 className="text-xl font-semibold mb-4 text-gray-100">
-                Stocks
+                Reciept
               </h2>
               <div className="space-y-2">
                 <div className="flex justify-between">

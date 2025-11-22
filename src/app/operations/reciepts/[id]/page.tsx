@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import DashboardLayout from "@/components/dashboard/DashBoardLayout";
 
 export default function RecieptDetailPage({ params }: { params: { id: string } }) {
   const [status, setStatus] = useState<"Draft" | "Ready" | "Done">("Ready");
@@ -28,6 +29,7 @@ export default function RecieptDetailPage({ params }: { params: { id: string } }
   };
 
   return (
+    <DashboardLayout>
     <div className="min-h-screen bg-slate-50">
       <div className="bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,5 +129,6 @@ export default function RecieptDetailPage({ params }: { params: { id: string } }
         </div>
       </div>
     </div>
+    </DashboardLayout>
   );
 }

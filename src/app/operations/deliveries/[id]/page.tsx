@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { mockDeliveries } from "@/lib/mock-data";
-import { Printer, X, Check, ChevronRight } from "lucide-react";
+import { Printer, X, Check } from "lucide-react";
 import { DeliveryStatus } from "@/types";
 import DashboardLayout from "@/components/dashboard/DashBoardLayout";
 
