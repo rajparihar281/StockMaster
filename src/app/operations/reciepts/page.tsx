@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import {
-  MagnifyingGlassIcon,
-  ChartPieIcon,
-  ChartBarIcon,
-  ChevronRightIcon
-} from "@heroicons/react/24/outline";
+  Search,
+  PieChart,
+  BarChart3,
+  ChevronRight
+} from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashBoardLayout";
 // Reusable tokens for clean classNames
 const pageBg = "bg-[#0F172A] text-gray-200";
@@ -39,9 +39,9 @@ export default function DarkReceiptsPage() {
         {/* STATS GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           {[
-            { title: "Total Receipts", value: "312", icon: ChartPieIcon },
-            { title: "This Month", value: "28", icon: ChartBarIcon },
-            { title: "Pending Reviews", value: "4", icon: ChevronRightIcon },
+            { title: "Total Receipts", value: "312", icon: PieChart },
+            { title: "This Month", value: "28", icon: BarChart3 },
+            { title: "Pending Reviews", value: "4", icon: ChevronRight },
           ].map((stat, i) => (
             <div key={i} className={card}>
               <div className="px-6 py-5 flex items-center gap-4">
@@ -61,7 +61,7 @@ export default function DarkReceiptsPage() {
         <div className="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
           {/* SEARCH */}
           <div className="relative w-full md:w-1/3">
-            <MagnifyingGlassIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
+            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
             <input
               type="text"
               placeholder="Search receipts…"

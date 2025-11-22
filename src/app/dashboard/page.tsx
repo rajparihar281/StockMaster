@@ -1,7 +1,6 @@
-// app/dashboard/page.tsx (App Router)
 "use client";
 
-import { useEffect, useState } from "react";
+import DashboardLayout from "@/components/dashboard/DashBoardLayout";
 
 interface Movement {
   id: string;
@@ -33,124 +32,173 @@ interface DashboardData {
   warehouseSummary: WarehouseSummary[];
 }
 
+// Mock Data Configuration
+const MOCK_DATA: DashboardData = {
+  kpis: {
+    totalProducts: 156,
+    lowStockItems: 12,
+    outOfStockItems: 5,
+    pendingReceipts: 8,
+    pendingDeliveries: 14,
+    internalTransfers: 3,
+  },
+  warehouseSummary: [
+    {
+      id: "wh-1",
+      name: "Main Warehouse",
+      shortCode: "WH-MAIN",
+      totalProducts: 120,
+      totalMovements: 450,
+    },
+    {
+      id: "wh-2",
+      name: "Production Floor",
+      shortCode: "WH-PROD",
+      totalProducts: 45,
+      totalMovements: 120,
+    },
+    {
+      id: "wh-3",
+      name: "Distribution Center",
+      shortCode: "WH-DIST",
+      totalProducts: 80,
+      totalMovements: 310,
+    },
+  ],
+  recentMovements: [
+    {
+      id: "m-1",
+      product: { name: "Steel Rods 6mm" },
+      warehouse: { name: "Main Warehouse" },
+      reference: "PO-2024-001",
+      movementType: "RECEIPT",
+      quantity: 500,
+    },
+    {
+      id: "m-2",
+      product: { name: "Office Chair" },
+      warehouse: { name: "Main Warehouse" },
+      reference: "SO-2024-005",
+      movementType: "DELIVERY",
+      quantity: -10,
+    },
+    {
+      id: "m-3",
+      product: { name: "LED Bulb 12W" },
+      warehouse: { name: "Production Floor" },
+      reference: "TR-001-IN",
+      movementType: "TRANSFER",
+      quantity: 100,
+    },
+    {
+      id: "m-4",
+      product: { name: "Aluminum Sheets" },
+      warehouse: { name: "Main Warehouse" },
+      reference: "ADJ-003",
+      movementType: "ADJUSTMENT",
+      quantity: -5,
+    },
+    {
+      id: "m-5",
+      product: { name: "Office Desk" },
+      warehouse: { name: "Distribution Center" },
+      reference: "SO-2024-008",
+      movementType: "DELIVERY",
+      quantity: -2,
+    },
+  ],
+};
+
 export default function Dashboard() {
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
-    try {
-      const response = await fetch("/api/dashboard");
-      const result = await response.json();
-      console.log("Dashboard API Response:", result); // Debug log
-      if (result.success && result.data) {
-        setData(result.data);
-      } else {
-        console.error("Invalid response format:", result);
-      }
-    } catch (error) {
-      console.error("Error fetching dashboard:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl">Loading dashboard...</div>
-      </div>
-    );
-  }
-
-  if (!data || !data.kpis) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl text-red-600">
-          Failed to load dashboard data
-        </div>
-      </div>
-    );
-  }
+  // Using static data directly
+  const data = MOCK_DATA;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">StockMaster Dashboard</h1>
+    <DashboardLayout>
+      <div className="space-y-8">
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-white">
+            StockMaster Dashboard
+          </h1>
+        </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <KPICard
             title="Total Products"
-            value={data.kpis?.totalProducts || 0}
+            value={data.kpis.totalProducts}
             color="blue"
           />
           <KPICard
             title="Low Stock"
-            value={data.kpis?.lowStockItems || 0}
+            value={data.kpis.lowStockItems}
             color="yellow"
           />
           <KPICard
             title="Out of Stock"
-            value={data.kpis?.outOfStockItems || 0}
+            value={data.kpis.outOfStockItems}
             color="red"
           />
           <KPICard
             title="Receipts"
-            value={data.kpis?.pendingReceipts || 0}
+            value={data.kpis.pendingReceipts}
             color="green"
           />
           <KPICard
             title="Deliveries"
-            value={data.kpis?.pendingDeliveries || 0}
+            value={data.kpis.pendingDeliveries}
             color="purple"
           />
           <KPICard
             title="Transfers"
-            value={data.kpis?.internalTransfers || 0}
+            value={data.kpis.internalTransfers}
             color="indigo"
           />
         </div>
 
         {/* Warehouse Summary */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Warehouse Summary</h2>
+        <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-lg">
+          <div className="p-6 border-b border-gray-700">
+            <h2 className="text-xl font-semibold text-white">
+              Warehouse Summary
+            </h2>
+          </div>
           <div className="overflow-x-auto">
-            <table className="min-w-full">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-700">
+              <thead className="bg-gray-900">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Warehouse
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">
+                    Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">
                     Code
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">
                     Products
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">
                     Movements
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
-                {data.warehouseSummary?.map((warehouse) => (
-                  <tr key={warehouse.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
+              <tbody className="bg-gray-800 divide-y divide-gray-700">
+                {data.warehouseSummary.map((warehouse) => (
+                  <tr
+                    key={warehouse.id}
+                    className="hover:bg-gray-700 transition-colors"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                       {warehouse.name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 py-1 text-xs font-semibold bg-blue-100 text-blue-800 rounded">
+                      <span className="px-2 py-0.5 text-xs bg-blue-900/50 text-blue-400 rounded border border-blue-800">
                         {warehouse.shortCode}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                       {warehouse.totalProducts}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                       {warehouse.totalMovements}
                     </td>
                   </tr>
@@ -161,88 +209,78 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Movements */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Recent Stock Movements</h2>
+        <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 shadow-lg">
+          <h2 className="text-xl font-semibold text-white mb-4">
+            Recent Movements
+          </h2>
           <div className="space-y-3">
-            {data.recentMovements?.length > 0 ? (
-              data.recentMovements.map((movement) => (
-                <div
-                  key={movement.id}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
-                >
-                  <div className="flex-1">
-                    <div className="font-semibold">{movement.product.name}</div>
-                    <div className="text-sm text-gray-600">
-                      {movement.warehouse.name} •{" "}
-                      {movement.reference || "No reference"}
-                    </div>
+            {data.recentMovements.map((movement) => (
+              <div
+                key={movement.id}
+                className="flex items-center justify-between p-4 bg-gray-700/50 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors"
+              >
+                <div>
+                  <div className="font-medium text-white">
+                    {movement.product.name}
                   </div>
-                  <div className="flex items-center gap-4">
-                    <span
-                      className={`px-3 py-1 text-xs font-semibold rounded ${
-                        movement.movementType === "RECEIPT"
-                          ? "bg-green-100 text-green-800"
-                          : movement.movementType === "DELIVERY"
-                          ? "bg-blue-100 text-blue-800"
-                          : movement.movementType === "TRANSFER"
-                          ? "bg-purple-100 text-purple-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
-                    >
-                      {movement.movementType}
-                    </span>
-                    <span
-                      className={`font-bold ${
-                        movement.quantity > 0
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {movement.quantity > 0 ? "+" : ""}
-                      {movement.quantity}
-                    </span>
+                  <div className="text-sm text-gray-400">
+                    {movement.warehouse.name} • {movement.reference}
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                No recent movements
+                <div className="flex items-center gap-4">
+                  <span
+                    className={`px-2 py-1 text-xs rounded bg-gray-600 text-gray-300`}
+                  >
+                    {movement.movementType}
+                  </span>
+                  <span
+                    className={`font-bold ${
+                      movement.quantity > 0 ? "text-green-400" : "text-red-400"
+                    }`}
+                  >
+                    {movement.quantity > 0 ? "+" : ""}
+                    {movement.quantity}
+                  </span>
+                </div>
               </div>
-            )}
+            ))}
           </div>
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
 
-function KPICard({
-  title,
-  value,
-  color,
-}: {
+type KPIColor = "blue" | "yellow" | "red" | "green" | "purple" | "indigo";
+
+interface KPICardProps {
   title: string;
   value: number;
-  color: string;
-}) {
-  const colorClasses = {
-    blue: "bg-blue-500",
-    yellow: "bg-yellow-500",
-    red: "bg-red-500",
-    green: "bg-green-500",
-    purple: "bg-purple-500",
-    indigo: "bg-indigo-500",
+  color: KPIColor;
+}
+
+function KPICard({ title, value, color }: KPICardProps) {
+  const colors: Record<KPIColor, string> = {
+    blue: "border-blue-500/30 bg-blue-500",
+    yellow: "border-yellow-500/30 bg-yellow-500",
+    red: "border-red-500/30 bg-red-500",
+    green: "border-green-500/30 bg-green-500",
+    purple: "border-purple-500/30 bg-purple-500",
+    indigo: "border-indigo-500/30 bg-indigo-500",
   };
 
+  const colorClass = colors[color];
+  const [borderClass, bgClass] = colorClass
+    ? colorClass.split(" ")
+    : ["border-gray-600", "bg-gray-600"];
+
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <div
-        className={`w-12 h-12 ${
-          colorClasses[color as keyof typeof colorClasses]
-        } rounded-lg mb-4`}
-      ></div>
-      <div className="text-2xl font-bold mb-1">{value}</div>
-      <div className="text-sm text-gray-600">{title}</div>
+    <div
+      className={`bg-gray-800 border ${borderClass} rounded-lg shadow-lg p-6`}
+    >
+      <div className={`w-10 h-10 rounded-lg mb-4 opacity-80 ${bgClass}`}></div>
+      <div className="text-3xl font-bold text-white mb-1">{value}</div>
+      <div className="text-sm font-medium text-gray-400">{title}</div>
     </div>
   );
 }

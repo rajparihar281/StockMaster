@@ -1,4 +1,3 @@
-// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,88 +7,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ... your models remain the same
+// Enums
+enum MovementType {
+  RECEIPT
+  DELIVERY
+  TRANSFER
+  ADJUSTMENT
+  @@map("movement_type")
+}
+
+// Models
 model User {
-  id        String   @id @default(cuid())
+  id        String   @id @default(dbgenerated("gen_random_uuid()::TEXT"))
   email     String   @unique
   password  String
   name      String?
   role      String   @default("USER")
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("users")
 }
 
 model Warehouse {
-  id        String   @id @default(cuid())
-  name      String
-  shortCode String   @unique @map("short_code")
-  address   String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
+  id             String        @id @default(dbgenerated("gen_random_uuid()::TEXT"))
+  name           String
+  shortCode      String        @unique @map("short_code")
+  address        String?
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @default(now()) @updatedAt @map("updated_at")
+  
   products       Product[]
-  stockMovements StockLedger[]
+  stockLedgers   StockLedger[]
 
   @@map("warehouses")
 }
 
 model Category {
-  id          String   @id @default(cuid())
+  id          String    @id @default(dbgenerated("gen_random_uuid()::TEXT"))
   name        String
   description String?
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  products Product[]
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  
+  products    Product[]
 
   @@map("categories")
 }
 
 model Product {
-  id          String   @id @default(cuid())
-  name        String
-  sku         String   @unique
-  description String?
-  perUnitCost Float    @map("per_unit_cost")
-  categoryId  String   @map("category_id")
-  warehouseId String   @map("warehouse_id")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id             String        @id @default(dbgenerated("gen_random_uuid()::TEXT"))
+  name           String
+  sku            String        @unique
+  description    String?
+  perUnitCost    Decimal       @map("per_unit_cost") @db.Decimal(10, 2)
+  categoryId     String        @map("category_id")
+  warehouseId    String        @map("warehouse_id")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @default(now()) @updatedAt @map("updated_at")
+  
+  category       Category      @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  warehouse      Warehouse     @relation(fields: [warehouseId], references: [id], onDelete: Restrict)
+  stockLedgers   StockLedger[]
 
-  category       Category      @relation(fields: [categoryId], references: [id])
-  warehouse      Warehouse     @relation(fields: [warehouseId], references: [id])
-  stockMovements StockLedger[]
-
+  @@map("products")
   @@index([categoryId])
   @@index([warehouseId])
   @@index([sku])
-  @@map("products")
 }
 
 model StockLedger {
-  id           String       @id @default(cuid())
+  id           String       @id @default(dbgenerated("gen_random_uuid()::TEXT"))
   productId    String       @map("product_id")
   warehouseId  String       @map("warehouse_id")
   quantity     Int
   movementType MovementType @map("movement_type")
   reference    String?
   createdAt    DateTime     @default(now()) @map("created_at")
+  
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  warehouse    Warehouse    @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
 
-  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
-
+  @@map("stock_ledger")
   @@index([productId])
   @@index([warehouseId])
   @@index([movementType])
   @@index([createdAt(sort: Desc)])
-  @@map("stock_ledger")
-}
-
-enum MovementType {
-  RECEIPT
-  DELIVERY
-  TRANSFER
-  ADJUSTMENT
 }
