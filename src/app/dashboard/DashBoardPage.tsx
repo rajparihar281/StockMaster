@@ -6,7 +6,7 @@ export default function DashboardPage() {
     <DashboardLayout>
       <div className="text-white px-4">
         <div className="flex justify-end text-3xl mb-8 font-semibold text-gray-100">
-          Dashboard
+          Dashboard Page
         </div>
 
         {/* KPI Cards */}
