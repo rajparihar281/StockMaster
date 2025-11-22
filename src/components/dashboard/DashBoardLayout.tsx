@@ -43,10 +43,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       href: "/settings",
       type: "dropdown",
       subItems: [
-        { name: "Profile", href: "/settings/profile" },
-        { name: "Team", href: "/settings/team" },
-        { name: "Preferences", href: "/settings/preferences" },
-        { name: "Notifications", href: "/settings/notifications" },
+        { name: "Warehouse", href: "/settings/warehouse" },
+        { name: "Location", href: "/settings/location" },
       ],
     },
   ];
