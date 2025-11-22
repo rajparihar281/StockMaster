@@ -1,54 +1,51 @@
+"use client";
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import DashboardLayout from "@/components/dashboard/DashBoardLayout";
 
+const stockData = [
+  { product: "Desk", cost: "3000 Rs", onHand: 50, free: 45 },
+  { product: "Table", cost: "3000 Rs", onHand: 50, free: 50 }
+];
 
-export default function ProductsPage() {
+const navItems = [
+  { name: "Dashboard", href: "/dashboard" },
+  { name: "Operations", href: "/operations" },
+  { name: "Products", href: "/products" },
+  { name: "Move History", href: "/history" },
+  { name: "Settings", href: "/settings" },
+];
+
+export default function StockPage() {
+  const pathname = usePathname();
+
   return (
-    <DashboardLayout>
-      <div className="text-white px-4">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-semibold text-gray-100">Products</h1>
-          <button className="border border-green-500 text-green-400 px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition-colors">
-            + Add Product
-          </button>
-        </div>
-
-        {/* Products Table */}
-        <div className="border border-gray-700 rounded-2xl p-6 bg-gray-800">
-          <table className="w-full text-left">
-            <thead className="border-b border-gray-600">
+  <DashboardLayout>          <h1 className="text-2xl font-bold text-gray-800">Stock</h1>
+  
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
               <tr>
-                <th className="pb-3 text-gray-300 font-semibold">Product</th>
-                <th className="pb-3 text-gray-300 font-semibold">SKU</th>
-                <th className="pb-3 text-gray-300 font-semibold">
-                  Per Unit Cost
-                </th>
-                <th className="pb-3 text-gray-300 font-semibold">On Hand</th>
-                <th className="pb-3 text-gray-300 font-semibold">
-                  Free to Use
-                </th>
-                <th className="pb-3 text-gray-300 font-semibold">Actions</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Product</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">per unit cost</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">On hand</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">free to Use</th>
               </tr>
             </thead>
-            <tbody>
-              <tr className="border-b border-gray-700">
-                <td className="py-4 text-gray-300">Office Desk</td>
-                <td className="py-4 text-gray-300">DESK-001</td>
-                <td className="py-4 text-gray-300">3000 Rs</td>
-                <td className="py-4 text-gray-300">50</td>
-                <td className="py-4 text-gray-300">45</td>
-                <td className="py-4">
-                  <button className="border border-blue-500 text-blue-400 px-3 py-1 rounded-lg hover:bg-blue-500 hover:text-white transition-colors text-sm mr-2">
-                    Edit
-                  </button>
-                  <button className="border border-red-500 text-red-400 px-3 py-1 rounded-lg hover:bg-red-500 hover:text-white transition-colors text-sm">
-                    Delete
-                  </button>
-                </td>
-              </tr>
+            <tbody className="divide-y divide-blue-100">
+              {stockData.map((row, idx) => (
+                <tr key={idx} className="hover:bg-blue-50 transition">
+                  <td className="px-6 py-3 text-blue-600 font-medium">{row.product}</td>
+                  <td className="px-6 py-3 text-gray-700">{row.cost}</td>
+                  <td className="px-6 py-3 text-gray-700">{row.onHand}</td>
+                  <td className="px-6 py-3 text-gray-700">{row.free}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-      </div>
-    </DashboardLayout>
+    </DashboardLayout>  
+
   );
 }
