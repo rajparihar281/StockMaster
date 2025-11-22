@@ -1,3 +1,4 @@
+// src/components/dashboard/DashboardLayout.tsx
 "use client";
 
 import Link from "next/link";
@@ -14,18 +15,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const navItems = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "Operations", href: "/operations" },
-    { name: "Products", href: "/products" },
-    { name: "Move History", href: "/move-history" },
+    { name: "Inventory", href: "/inventory/products" },
+    { name: "Move History", href: "/operations/transfers" },
     { name: "Settings", href: "/settings" },
   ];
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Top Navbar */}
-      <div
-        className="flex justify-between items-center 
-        border-b border-gray-700 px-8 py-4 bg-gray-800"
-      >
+      <div className="flex justify-between items-center border-b border-gray-700 px-8 py-4 bg-gray-800">
         {/* Navigation */}
         <div className="flex gap-8 text-lg">
           {navItems.map((item) => (
