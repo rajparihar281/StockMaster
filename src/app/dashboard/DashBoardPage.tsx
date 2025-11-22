@@ -1,5 +1,6 @@
 import DashboardLayout from "@/components/dashboard/DashBoardLayout";
 
+
 export default function DashboardPage() {
   return (
     <DashboardLayout>
@@ -36,6 +37,6 @@ export default function DashboardPage() {
           {/* Recent moves table will go here */}
         </div>
       </div>
-    </DashboardLayout>
+      </DashboardLayout>
   );
 }
