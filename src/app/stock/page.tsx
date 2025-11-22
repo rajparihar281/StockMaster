@@ -41,9 +41,7 @@ export default function StockPage() {
         {/* Header */}
         <div className="flex flex-col gap-4 mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Stock</h1>
-          <div className="text-gray-600">
-            This page contains the warehouse details &amp; location.
-          </div>
+
         </div>
         {/* Stock Table */}
         <div className="overflow-x-auto">
