@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // ============================================
 // MOCK DATA - EASY TO FIND AND MODIFY
 // ============================================
-const MOCK_RECEIPTS = [
+const MOCK_RECIEPTS = [
   {
     id: 1,
     reference: "WH/IN/001",
@@ -28,16 +29,22 @@ const MOCK_RECEIPTS = [
 ];
 // ============================================
 
-export default function ReceiptsPage() {
+export default function RecieptsPage() {
+  const router = useRouter();
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [searchQuery, setSearchQuery] = useState("");
 
   // Client-side search filter
-  const filteredReceipts = MOCK_RECEIPTS.filter((receipt) =>
-    Object.values(receipt).some((value) =>
+  const filteredReciepts = MOCK_RECIEPTS.filter((reciept) =>
+    Object.values(reciept).some((value) =>
       value.toString().toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
+
+  // Handle row click - navigate to reciept detail/edit page
+  const handleRowClick = (id: number) => {
+    router.push(`/operations/reciepts/${id}`);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -67,7 +74,7 @@ export default function ReceiptsPage() {
                   NEW
                 </button>
               </Link>
-              <h1 className="text-xl font-bold text-slate-800">Receipts</h1>
+              <h1 className="text-xl font-bold text-slate-800">Reciepts</h1>
             </div>
 
             {/* Right Side: Search + View Controls */}
@@ -76,7 +83,7 @@ export default function ReceiptsPage() {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Search receipts..."
+                  placeholder="Search reciepts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-64 h-9 pl-9 pr-3 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -189,28 +196,29 @@ export default function ReceiptsPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-slate-200">
-                {filteredReceipts.map((receipt) => (
+                {filteredReciepts.map((reciept) => (
                   <tr
-                    key={receipt.id}
-                    className="hover:bg-slate-50 transition-colors"
+                    key={reciept.id}
+                    onClick={() => handleRowClick(reciept.id)}
+                    className="hover:bg-slate-50 transition-colors cursor-pointer"
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
-                      {receipt.reference}
+                      {reciept.reference}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                      {receipt.from}
+                      {reciept.from}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                      {receipt.to}
+                      {reciept.to}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                      {receipt.contact}
+                      {reciept.contact}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                      {receipt.scheduleDate}
+                      {reciept.scheduleDate}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                      {receipt.status}
+                      {reciept.status}
                     </td>
                   </tr>
                 ))}
@@ -218,9 +226,9 @@ export default function ReceiptsPage() {
             </table>
 
             {/* Empty State */}
-            {filteredReceipts.length === 0 && (
+            {filteredReciepts.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-slate-500 text-sm">No receipts found</p>
+                <p className="text-slate-500 text-sm">No reciepts found</p>
               </div>
             )}
           </div>
@@ -229,18 +237,19 @@ export default function ReceiptsPage() {
         {/* GRID VIEW */}
         {viewMode === "grid" && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredReceipts.map((receipt) => (
+            {filteredReciepts.map((reciept) => (
               <div
-                key={receipt.id}
-                className="bg-white rounded-lg border border-slate-200 p-5 shadow-sm hover:shadow-md transition-shadow"
+                key={reciept.id}
+                onClick={() => handleRowClick(reciept.id)}
+                className="bg-white rounded-lg border border-slate-200 p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold text-slate-900">
-                      {receipt.reference}
+                      {reciept.reference}
                     </h3>
                     <span className="text-sm text-slate-600">
-                      {receipt.status}
+                      {reciept.status}
                     </span>
                   </div>
 
@@ -248,25 +257,25 @@ export default function ReceiptsPage() {
                     <div className="flex justify-between">
                       <span className="text-slate-500">From:</span>
                       <span className="text-slate-900 font-medium">
-                        {receipt.from}
+                        {reciept.from}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">To:</span>
                       <span className="text-slate-900 font-medium">
-                        {receipt.to}
+                        {reciept.to}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Contact:</span>
                       <span className="text-slate-900 font-medium">
-                        {receipt.contact}
+                        {reciept.contact}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Scheduled:</span>
                       <span className="text-slate-900 font-medium">
-                        {receipt.scheduleDate}
+                        {reciept.scheduleDate}
                       </span>
                     </div>
                   </div>
@@ -275,9 +284,9 @@ export default function ReceiptsPage() {
             ))}
 
             {/* Empty State */}
-            {filteredReceipts.length === 0 && (
+            {filteredReciepts.length === 0 && (
               <div className="col-span-full text-center py-12">
-                <p className="text-slate-500 text-sm">No receipts found</p>
+                <p className="text-slate-500 text-sm">No reciepts found</p>
               </div>
             )}
           </div>
